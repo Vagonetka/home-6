@@ -1,0 +1,10 @@
+stream
+  |from()
+    .measurement('mysql')
+  |window()
+    .period(1m)
+    .every(30s)
+  |count('server_id')
+  |alert()
+    .crit(lambda: "count" == 0)
+    .message('MySQL is down!')

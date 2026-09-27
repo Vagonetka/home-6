@@ -1,0 +1,10 @@
+stream
+  |from()
+    .measurement('mem')
+  |window()
+    .period(1m)
+    .every(30s)
+  |mean('used_percent')
+  |alert()
+    .crit(lambda: "mean" > 90)
+    .message('Memory high: {{ .Fields.mean }}%')

@@ -1,0 +1,10 @@
+stream
+  |from()
+    .measurement('cpu')
+  |window()
+    .period(1m)
+    .every(30s)
+  |mean('usage_user')
+  |alert()
+    .crit(lambda: "mean" > 80)
+    .message('CPU high: {{ .Fields.mean }}%')

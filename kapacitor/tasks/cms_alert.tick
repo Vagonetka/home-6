@@ -1,0 +1,11 @@
+stream
+  |from()
+    .measurement('http_response')
+    .where(lambda: "status_code" >= 500)
+  |window()
+    .period(1m)
+    .every(30s)
+  |count('status_code')
+  |alert()
+    .crit(lambda: "count" > 0)
+    .message('CMS errors: {{ .Fields.count }} 5xx errors')
